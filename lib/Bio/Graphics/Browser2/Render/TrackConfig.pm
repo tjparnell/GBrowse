@@ -117,8 +117,8 @@ sub config_dialog {
     unshift @glyph_select,$dynamic if ref $data_source->fallback_setting($label=>'glyph') eq 'CODE';
 
     my $db           = $data_source->open_database($label,$length);
-    my $quantitative = $glyph =~ /wiggle|vista|xy|density|hybrid/ || ref($db) =~ /bigwig/i;
-    my $can_whisker  = $quantitative && ref($db) =~ /bigwig/i;
+    my $quantitative = $glyph =~ /wiggle|vista|xy|density|hybrid/ || ref($db) =~ /bigwig|useq/i;
+    my $can_whisker  = $quantitative && ref($db) =~ /bigwig|useq/i;
     my $vista        = $glyph =~ /vista/;
 
     unless (@glyph_select) { # reasonable defaults

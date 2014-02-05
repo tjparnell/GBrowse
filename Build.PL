@@ -41,6 +41,7 @@ my $build = GBrowseInstall->new(
 	'Bio::Das'                 => 0,
 	'Bio::DB::Sam'             => 1.36,
 	'Bio::DB::BigFile'         => 1.00,
+	'Bio::DB::USeq'            => 0,
 	'Crypt::SSLeay'            => 0,
 	'DB_File::Lock'            => 0,
 	'DBI'                      => 0,

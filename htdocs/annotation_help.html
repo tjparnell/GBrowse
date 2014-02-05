@@ -1180,13 +1180,15 @@ for disk space savings. The following file types are accepted:
   
   <dt><b>useq file</b>
   <dd>The <a href="http://useq.sourceforge.net/useqArchiveFormat.html">useq file</a>
-  is a compressed archive of either genomic intervals (with optional scores and/or text) 
-  or quantitative data. It is generated using utilities from the 
-  <a href="http://useq.sourceforge.net/">USeq analysis package</a>. Upon upload, 
-  the useq file is automatically converted to either a 
+  is an indexed, compressed archive of either genomic intervals (with optional scores 
+  and/or text) or dense quantitative data. It is generated using utilities from the 
+  <a href="http://useq.sourceforge.net/">USeq analysis package</a>. Useq files may be 
+  used for quantitative data with the xyplot family of glyphs or the segments glyph for 
+  intervals. Displaying useq files requires the installation of the Bio::DB::USeq module,
+  or alternatively the useq file may be converted to either a
   <a href="http://genome.ucsc.edu/goldenPath/help/bigWig.html">bigWig file</a> or 
   <a href="http://genome.ucsc.edu/goldenPath/help/bigBed.html">bigBed file</a> 
-  depending on context. Processing useq files requires the installation of the 
+  depending on context. Converting useq files requires the installation of the 
   USeq package, wigToBigWig and bedToBigBed 
   <a href=http://hgdownload.soe.ucsc.edu/admin/exe/>utilities</a>, and the 
   Bio::DB::BigWig Perl module. 

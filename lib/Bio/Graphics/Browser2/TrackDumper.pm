@@ -187,6 +187,10 @@ sub _dump_gff3 {
 	    my $trackname = $f->display_name || $f->type;
 	    $trackname    .= " (Signal)" if $vista;
 	    $w->{$trackname}{$f->seq_id}{$wig} = [$start,$end];
+	} elsif ($f->can('get_seq_stream')) { 
+	    # for summary and coverage objects that can do recursive iteration
+	    my $i = $f->get_seq_stream();
+	    while (my $s = $i->next_seq) { $self->print_feature($s) }
 	} else {
 	    $self->print_gff3_header($segment) unless $gff3_header++;
 	    $self->print_feature($f);
@@ -376,6 +380,7 @@ sub available_formats {
     push @formats,'sam'   if  $db->isa('Bio::DB::Bam')    or $db->isa('Bio::DB::Sam');
     push @formats,'bed'   if  $db->isa('Bio::DB::BigWig') or $db->isa('Bio::DB::BigWigSet');
     push @formats, qw(gff3 bed) if $db->isa('Bio::DB::BigBed');
+    push @formats, qw(gff3 bed) if $db->isa('Bio::DB::USeq');
     push @formats,'bed'   if  $glyph =~ /wiggle|xyplot|density/;
     my %seenit;
     return grep {!$seenit{$_}++} @formats;
@@ -401,6 +406,7 @@ sub guess_dump_method {
     return 'dump_gff3_autowig'   if $db->isa('Bio::DB::Das::Chado');
     return 'dump_gff3_autowig'   if $db->isa('Bio::DB::DasI');
     return 'dump_gff3_autowig'   if $db->isa('Bio::DB::BigBed');
+    return 'dump_bigwig'         if $db->isa('Bio::DB::USeq');
 
     my $type = $self->guess_file_type();
     return 'dump_sam'    if $type eq 'sam';
