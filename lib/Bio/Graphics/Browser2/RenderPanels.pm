@@ -147,12 +147,16 @@ sub request_panels {
   my $do_local  = @$local_labels;
   my $do_remote = @$remote_labels;
 
+  if (!($do_local || $do_remote)) {
+      warn "[$$] No uncached requests to process..." if DEBUG;
+      return $data_destinations;
+  }
   # In the case of a deferred request we fork.
   # Parent returns the list of requests.
   # Child processes the requests in the background.
   # If both local and remote requests are needed, then we
   # fork a second time and process them in parallel.
-  if ($args->{deferred}) {
+  elsif ($args->{deferred}) {
 
       # precache local databases into cache
       my $length = $self->segment_length;
@@ -2409,7 +2413,7 @@ sub feature2label {
     my $feature = shift;
     my $type2label = $self->{_type2label} or die "no type2label map defined";
     my $type = eval {$feature->type} || eval{$feature->source_tag} || eval{$feature->primary_tag} or return;
-    (my $basetype = $type) =~ s/:.+$//;
+    (my $basetype = $type) =~ s/:.*$//;
     my $labels = $type2label->{$type}||$type2label->{$basetype} or return;
     my @labels = keys %$labels;
     return @labels;
